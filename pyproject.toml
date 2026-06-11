@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "audio-content-id-enterprise"
+version = "0.1.0"
+description = "Enterprise-style Audio Content ID MVP with filter, embedding, and verification stages."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "Giang130604" }
+]
+dependencies = []
+
+[project.optional-dependencies]
+api = [
+  "fastapi>=0.111,<1",
+  "uvicorn[standard]>=0.30,<1",
+  "python-multipart>=0.0.9,<1",
+]
+infra = [
+  "qdrant-client>=1.9,<2",
+  "psycopg[binary]>=3.2,<4",
+  "minio>=7.2,<8",
+]
+ml = [
+  "laion-clap>=1.1.4",
+]
+dev = [
+  "pytest>=8,<9",
+]
+
+[tool.setuptools]
+package-dir = {"" = "packages/audio_id"}
+
+[tool.setuptools.packages.find]
+where = ["packages/audio_id"]
