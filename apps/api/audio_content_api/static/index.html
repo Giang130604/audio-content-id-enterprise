@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Audio Content ID Console</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/ui/static/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Enterprise MVP</p>
+        <h1>Audio Content ID Console</h1>
+      </div>
+      <span id="api-status" class="status-pill">Checking API</span>
+    </header>
+
+    <main class="layout">
+      <section class="notice">
+        MVP in-memory: registered assets, detections, and review cases are lost
+        when the server restarts. Upload PCM WAV files only.
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Step 1</p>
+            <h2>Reference Assets</h2>
+          </div>
+          <button id="refresh-assets" class="secondary" type="button">Refresh</button>
+        </div>
+
+        <form id="asset-form" class="form-grid">
+          <label>
+            Asset ID
+            <input id="asset-id" name="asset_id" required placeholder="asset-001" />
+          </label>
+          <label>
+            Title
+            <input id="asset-title" name="title" required placeholder="Original Track" />
+          </label>
+          <label>
+            Owner
+            <input id="asset-owner" name="owner" required placeholder="Rights Owner" />
+          </label>
+          <label class="file-field">
+            Reference WAV
+            <input id="asset-file" name="file" type="file" accept=".wav,audio/wav" required />
+          </label>
+          <button id="asset-submit" type="submit">Register Asset</button>
+        </form>
+
+        <div id="asset-message" class="message" role="status"></div>
+        <div id="asset-list" class="list empty">No assets registered yet.</div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Step 2</p>
+            <h2>Detection Test</h2>
+          </div>
+          <button id="refresh-detections" class="secondary" type="button">Refresh</button>
+        </div>
+
+        <form id="detection-form" class="form-grid detection-form">
+          <label class="file-field wide">
+            Query WAV
+            <input id="detection-file" name="file" type="file" accept=".wav,audio/wav" required />
+          </label>
+          <button id="detection-submit" type="submit">Run Detection</button>
+        </form>
+
+        <div id="detection-message" class="message" role="status"></div>
+        <div id="detection-result" class="result empty">No detection run yet.</div>
+        <div id="detection-history" class="list"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Step 3</p>
+            <h2>Review Queue</h2>
+          </div>
+          <button id="refresh-review" class="secondary" type="button">Refresh</button>
+        </div>
+
+        <div id="review-message" class="message" role="status"></div>
+        <div id="review-list" class="list empty">No open review cases.</div>
+      </section>
+    </main>
+
+    <script src="/ui/static/app.js"></script>
+  </body>
+</html>

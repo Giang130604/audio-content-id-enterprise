@@ -22,6 +22,18 @@ pip install -e .[dev,api]
 python -m unittest discover -s tests
 ```
 
+Run the API and UI:
+
+```powershell
+uvicorn apps.api.audio_content_api.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+Open:
+
+```text
+http://127.0.0.1:8000/ui
+```
+
 Docker is optional for code tests. Install Docker Desktop before running:
 
 ```powershell

@@ -6,6 +6,8 @@ from typing import Literal
 from uuid import uuid4
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from audio_id.audio_io import load_wav_pcm
@@ -21,6 +23,7 @@ app = FastAPI(
 pipeline = AudioContentIdPipeline()
 detections: dict[str, dict] = {}
 review_cases: dict[str, dict] = {}
+STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 
 class DetectionResponse(BaseModel):
@@ -33,6 +36,9 @@ class ReviewDecisionRequest(BaseModel):
     decision: Literal["approve", "reject", "escalate"]
     reviewer: str
     notes: str | None = None
+
+
+app.mount("/ui/static", StaticFiles(directory=STATIC_DIR), name="ui-static")
 
 
 async def _upload_to_signal(upload: UploadFile):
@@ -49,6 +55,21 @@ async def _upload_to_signal(upload: UploadFile):
 @app.get("/healthz")
 def healthz() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/", include_in_schema=False)
+def root() -> RedirectResponse:
+    return RedirectResponse(url="/ui")
+
+
+@app.get("/ui", include_in_schema=False)
+def ui() -> FileResponse:
+    return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.get("/ui/", include_in_schema=False)
+def ui_slash() -> RedirectResponse:
+    return RedirectResponse(url="/ui")
 
 
 @app.post("/v1/assets")
@@ -75,7 +96,22 @@ async def create_asset(
         "title": asset.title,
         "owner": asset.owner,
         "duration_seconds": asset.signal.duration_seconds,
+        "metadata": asset.metadata,
     }
+
+
+@app.get("/v1/assets")
+def list_assets() -> list[dict]:
+    return [
+        {
+            "asset_id": asset.asset_id,
+            "title": asset.title,
+            "owner": asset.owner,
+            "duration_seconds": asset.signal.duration_seconds,
+            "metadata": asset.metadata,
+        }
+        for asset in pipeline.references.values()
+    ]
 
 
 @app.post("/v1/detections", response_model=DetectionResponse)
@@ -112,6 +148,11 @@ async def create_detection(
     return DetectionResponse(**response)
 
 
+@app.get("/v1/detections")
+def list_detections() -> list[dict]:
+    return list(detections.values())
+
+
 @app.get("/v1/detections/{detection_id}")
 def get_detection(detection_id: str) -> dict:
     result = detections.get(detection_id)
@@ -137,4 +178,3 @@ def decide_review_case(
     case["status"] = "closed"
     case["decision"] = request.model_dump()
     return case
-

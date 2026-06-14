@@ -1,0 +1,288 @@
+:root {
+  color-scheme: light;
+  --bg: #f5f7fb;
+  --panel: #ffffff;
+  --text: #182033;
+  --muted: #647084;
+  --line: #dce3ee;
+  --blue: #155dfc;
+  --blue-dark: #0f45bd;
+  --green: #087f5b;
+  --yellow: #946200;
+  --gray: #586170;
+  --red: #b42318;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.app-header {
+  align-items: center;
+  background: #111827;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px clamp(16px, 4vw, 48px);
+}
+
+.app-header h1 {
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+
+.app-header .eyebrow {
+  color: #a7b1c4;
+}
+
+.status-pill,
+.badge {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 10px;
+}
+
+.status-pill {
+  background: #263244;
+  color: #dbeafe;
+}
+
+.status-pill.ok {
+  background: #064e3b;
+  color: #d1fae5;
+}
+
+.status-pill.error {
+  background: #7f1d1d;
+  color: #fee2e2;
+}
+
+.layout {
+  display: grid;
+  gap: 18px;
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: 24px;
+}
+
+.notice {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  color: #7c2d12;
+  padding: 14px 16px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.panel-header {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.panel h2 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.form-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+label {
+  color: var(--muted);
+  display: grid;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 7px;
+}
+
+input,
+textarea,
+select {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--text);
+  min-height: 40px;
+  padding: 9px 10px;
+  width: 100%;
+}
+
+input[type="file"] {
+  padding: 7px 8px;
+}
+
+.file-field {
+  min-width: 0;
+}
+
+.wide {
+  grid-column: span 3;
+}
+
+button {
+  align-self: end;
+  background: var(--blue);
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 40px;
+  padding: 9px 14px;
+}
+
+button:hover {
+  background: var(--blue-dark);
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+button.secondary {
+  background: #eef2ff;
+  color: #233876;
+}
+
+.message {
+  color: var(--muted);
+  min-height: 22px;
+  padding-top: 10px;
+}
+
+.message.error {
+  color: var(--red);
+}
+
+.list,
+.result {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.empty {
+  color: var(--muted);
+}
+
+.item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.item-header {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.item-title {
+  font-weight: 800;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.score-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.score-box {
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.score-box span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.badge.high {
+  background: #d1fae5;
+  color: var(--green);
+}
+
+.badge.review {
+  background: #fef3c7;
+  color: var(--yellow);
+}
+
+.badge.none {
+  background: #e5e7eb;
+  color: var(--gray);
+}
+
+.review-actions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 2fr repeat(3, auto);
+}
+
+@media (max-width: 860px) {
+  .app-header,
+  .panel-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .form-grid,
+  .score-grid,
+  .review-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .wide {
+    grid-column: auto;
+  }
+}
+
